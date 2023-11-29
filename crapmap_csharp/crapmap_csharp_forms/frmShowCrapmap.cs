@@ -39,8 +39,24 @@ namespace crapmap_csharp_forms
                 imageInfo.Name
             );
 
-            crapmap.loadFile(imagePath);
-            picImage.Image = crapmap.getImage();
+            if (imageInfo.Exists)
+            {
+                try
+                {
+                    crapmap.loadFile(imagePath);
+                    picImage.Image = crapmap.getImage();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(
+                        ex.Message,
+                        "ERROR READING FILE",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
+                }
+
+            }
         }
     }
 }
