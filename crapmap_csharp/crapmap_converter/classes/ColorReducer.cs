@@ -22,8 +22,6 @@ namespace crapmap_converter.classes
             return Math.Sqrt((((512 + rmean) * r * r) >> 8) + 4 * g * g + (((767 - rmean) * b * b) >> 8));
         }
 
-
-
         public static Image reduceColors(Image sourceImg, int transparencyCutoff = 254, int targetColors = 255)
         {
             Bitmap newImage = new Bitmap(sourceImg);
@@ -126,7 +124,8 @@ namespace crapmap_converter.classes
 
         public static Color getClosestColor(Bitmap bmp, Color currentPixel, int x, int y)
         {
-            List<Color> surroundingColors = GetSurroundingPixels(bmp, x, y);
+            //List<Color> surroundingColors = GetSurroundingPixels(bmp, x, y);
+            List<Color> surroundingColors = GetSpreadingPixels(bmp, x, y);
 
             Color closestColor = currentPixel;
             double closestColorDistance = double.MaxValue;
@@ -145,6 +144,8 @@ namespace crapmap_converter.classes
 
         public static List<Color> GetSpreadingPixels(Bitmap bmp, int x, int y)
         {
+            // chatGPT's try
+
             List<Color> surroundingPixels = new List<Color>();
             Color centerPixelColor = bmp.GetPixel(x, y);
 
