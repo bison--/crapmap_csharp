@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "crapmap_csharp", "crapmap_c
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "crapmap_csharp_forms", "crapmap_csharp_forms\crapmap_csharp_forms.csproj", "{67F993CF-D0AD-433A-89B5-580C3F40087E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "crapmap_converter", "crapmap_converter\crapmap_converter.csproj", "{81346D52-3E48-41CA-99B9-0076BDED6C01}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{67F993CF-D0AD-433A-89B5-580C3F40087E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67F993CF-D0AD-433A-89B5-580C3F40087E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67F993CF-D0AD-433A-89B5-580C3F40087E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81346D52-3E48-41CA-99B9-0076BDED6C01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81346D52-3E48-41CA-99B9-0076BDED6C01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81346D52-3E48-41CA-99B9-0076BDED6C01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81346D52-3E48-41CA-99B9-0076BDED6C01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

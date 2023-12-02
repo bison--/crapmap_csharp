@@ -25,6 +25,7 @@ namespace crapmap_csharp_forms
         private void frmShowCrapmap_Load(object sender, EventArgs e)
         {
             string imagePath = "images/sample2.crapmap";
+            //imagePath = "images/tmp.crapmap";
 
             string[] args = Environment.GetCommandLineArgs();
 
@@ -43,7 +44,7 @@ namespace crapmap_csharp_forms
             {
                 try
                 {
-                    crapmap.loadFile(imagePath);
+                    crapmap.loadFromFile(imagePath);
                     picImage.Image = crapmap.getImage();
                 }
                 catch (Exception ex)

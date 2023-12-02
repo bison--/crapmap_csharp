@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="CrapMap.cs" />
     <Compile Include="CrapmapReader.cs" />
+    <Compile Include="Helper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

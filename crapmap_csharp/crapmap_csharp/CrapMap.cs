@@ -18,12 +18,17 @@ namespace crapmap_csharp
         public byte version = 0;
         public byte width = 0;
         public byte height = 0;
-        public List<Color> colors = new List<Color> { Color.Transparent };
+        public List<Color> colors = new List<Color> { Color.FromArgb(0, 255, 255, 255) };
         public List<byte> colorPixelMap = new List<byte>();
+
+        public bool hasData()
+        {
+            return colorPixelMap.Count != 0;
+        }
 
         public Image getImage()
         {
-            Bitmap bmp = new Bitmap(width, height);
+            Bitmap bmp = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             Graphics graphics = Graphics.FromImage(bmp);
 
             graphics.Clear(Color.Transparent);
@@ -51,6 +56,36 @@ namespace crapmap_csharp
             */
 
             return (Image)bmp;
+        }
+
+        public bool saveCrapmap(string filePath)
+        {
+            using (FileStream fsTarget = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+            {
+                // write header
+                fsTarget.Write(FILE_MAGIC_BYTES, 0, FILE_MAGIC_BYTES.Length);
+                fsTarget.WriteByte(VERSION);
+                fsTarget.WriteByte(width);
+                fsTarget.WriteByte(height);
+                fsTarget.WriteByte((byte)(colors.Count - 1));
+
+                // write colors
+                for (int i = 1; i < colors.Count; i++)
+                {
+                    Color color = colors[i];
+                    fsTarget.WriteByte(color.R);
+                    fsTarget.WriteByte(color.G);
+                    fsTarget.WriteByte(color.B);
+                }
+
+                // write color pixel map
+                foreach (var colorIndex in colorPixelMap)
+                {
+                    fsTarget.WriteByte(colorIndex);
+                }
+            }
+
+            return true;
         }
 
         public static bool isFileSizeOk(string filePath)
@@ -115,7 +150,7 @@ namespace crapmap_csharp
             return true;
         }
 
-        public bool loadFile(string filePath)
+        public bool loadFromFile(string filePath)
         {
             isFileSizeOk(filePath);
 
@@ -139,6 +174,68 @@ namespace crapmap_csharp
                 for (int i = 0; i < imageSize; i++)
                 {
                     colorPixelMap.Add((byte)fsSource.ReadByte());
+                }
+            }
+
+            return true;
+        }
+
+
+        private static bool isImageSizeOk(Image img)
+        {
+            if (!Helper.isImageSizeOk(img)) {
+                throw new Exception(
+                    String.Format(
+                        "Image too big. max: 255x255, got: {0}x{1}",
+                        img.Width,
+                        img.Height
+                    )
+                );
+            }
+
+            return true;
+        }
+
+        private static bool isColorAmountOk(Image img)
+        {
+            int colorAmount = Helper.getColorAmount(img);
+
+            if (colorAmount > 255)
+            {
+                throw new Exception(
+                    String.Format(
+                        "Too many colors. max: 255, got: {0}",
+                        colorAmount
+                    )
+                );
+            }
+
+            return true;
+        }
+
+        public bool loadFromImage(Image img)
+        {
+            isImageSizeOk(img);
+            isColorAmountOk(img);
+
+            width = (byte)img.Width;
+            height = (byte)img.Height;
+            version = VERSION;
+
+            Bitmap bmp = (Bitmap)img;
+
+            for (int y = 0; y < bmp.Height; y++)
+            {
+                for (int x = 0; x < bmp.Width; x++)
+                {
+                    Color currentPixel = bmp.GetPixel(x, y);
+                    if (!colors.Contains(currentPixel))
+                    {
+                        colors.Add(currentPixel);
+                    }
+
+                    byte index = (byte)colors.IndexOf(currentPixel);
+                    colorPixelMap.Add(index);
                 }
             }
 
