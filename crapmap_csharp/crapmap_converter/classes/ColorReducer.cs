@@ -159,7 +159,8 @@ namespace crapmap_converter.classes
                     for (int j = -range; j <= range; j++)
                     {
                         // Skip the center pixel
-                        if (i == 0 && j == 0) continue;
+                        if (i == 0 && j == 0)
+                        { continue; }
 
                         int targetX = x + i;
                         int targetY = y + j;
@@ -187,6 +188,9 @@ namespace crapmap_converter.classes
 
         public static List<Color> GetSurroundingPixels(Bitmap bmp, int x, int y)
         {
+            // method can lead to a unoptimized end-result when not enough replacement pixels
+            // can be found in a vicinity of 9 pixels around the pixel to be replaced
+
             List<Color> surroundingPixels = new List<Color>();
 
             for (int i = -1; i <= 1; i++)
